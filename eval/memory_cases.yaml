@@ -1,0 +1,66 @@
+# Labelled set for memory extraction. Each case is one user message (fictional, no real personal data).
+# `gold` lists the memories a careful annotator would store: a type plus a regex the memory's text must match.
+# Cases with `gold: []` must produce nothing (questions, chatter, facts about other people, assistant claims).
+
+- text: I earn 1.2 lakh a month after tax.
+  gold: [{type: profile, match: '1\.2 lakh|1,20,000|120000'}]
+- text: My salary comes in on the last working day of every month.
+  gold: [{type: profile, match: 'last working day'}]
+- text: I live in Pune with my wife and our two kids.
+  gold: [{type: profile, match: 'pune|wife|kids|children'}]
+- text: I'm saving for a Japan trip, 3 lakh by March next year.
+  gold: [{type: goal, match: 'japan'}]
+- text: I want to build an emergency fund of six months of expenses.
+  gold: [{type: goal, match: 'emergency'}]
+- text: Please keep answers short, bullet points are best for me.
+  gold: [{type: preference, match: 'short|bullet|concise'}]
+- text: I'm vegetarian so I almost never eat out at steakhouses, ignore those suggestions.
+  gold: [{type: preference, match: 'vegetarian'}]
+- text: I usually order Swiggy three or four times a week when I work late.
+  gold: [{type: habit, match: 'swiggy'}]
+- text: Every weekend I end up spending a lot at the mall.
+  gold: [{type: habit, match: 'weekend|mall'}]
+- text: I pay 899 for Hotstar every year in January.
+  gold: [{type: recurring, match: 'hotstar'}]
+- text: My gym membership is 2,500 a month and auto-debits on the 5th.
+  gold: [{type: recurring, match: 'gym'}]
+- text: Zepto is groceries, not shopping. Please fix that.
+  gold: [{type: correction, match: 'zepto'}]
+- text: That PVR charge was a gift for my sister, count it as Gifts.
+  gold: [{type: correction, match: 'pvr|gift'}]
+- text: I've decided to cancel Apple Music and keep only Spotify.
+  gold: [{type: decision, match: 'apple music'}]
+- text: I decided to move 20k every month into a recurring deposit from next month.
+  gold: [{type: decision, match: 'recurring deposit|\bRD\b|20k|20,000'}]
+- text: I'm a freelance designer, so my income swings a lot month to month.
+  gold: [{type: profile, match: 'freelance|irregular|swing|varies|variable'}]
+- text: My rent is 28,000 and I pay it on the 1st. Also I'm saving 50k for a new laptop by December.
+  gold:
+    - {type: recurring, match: 'rent'}
+    - {type: goal, match: 'laptop'}
+- text: I don't want any investment tips, just help me track spending. I earn about 85,000.
+  gold:
+    - {type: preference, match: 'investment'}
+    - {type: profile, match: '85,000|85000|85k'}
+- text: I take the metro to work every day instead of cabs to save money.
+  gold: [{type: habit, match: 'metro'}]
+- text: Netflix went up to 649, but I'm keeping it for now.
+  gold: [{type: decision, match: 'netflix'}]
+
+# Negatives: nothing worth remembering.
+- text: How much did I spend on dining last month?
+  gold: []
+- text: hi!
+  gold: []
+- text: Show me my subscriptions.
+  gold: []
+- text: What if I cut shopping by 20%?
+  gold: []
+- text: thanks, that's helpful
+  gold: []
+- text: My friend Arjun spends way too much on gadgets.
+  gold: []
+- text: Can you explain what a sinking fund is?
+  gold: []
+- text: Was that Amazon charge on the 12th a duplicate?
+  gold: []

@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.12"
+          - os: windows-latest
+            python: "3.14"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: pytest -q
+      - name: Eval (offline mock models)
+        run: python eval/run_eval.py --mock --strict --out ${{ runner.temp }}/eval.md
+      - name: Memory and categorisation eval harnesses (offline)
+        run: |
+          python eval/memory_eval.py --mock --out ${{ runner.temp }}/memory.md
+          python eval/categorisation_eval.py --mock --out ${{ runner.temp }}/categorisation.md

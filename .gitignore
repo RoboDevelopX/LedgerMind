@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+*.db
+data/
+.pytest_cache/
+.venv/
+demo_video/tts/
+demo_video/out/

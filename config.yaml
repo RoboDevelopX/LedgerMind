@@ -1,0 +1,68 @@
+# Ledgermind configuration. Secrets never go here: NEBIUS_API_KEY lives in .env.
+# Any model id can be overridden with an env var: LEDGERMIND_MODEL_<ALIAS>, e.g. LEDGERMIND_MODEL_SUPER.
+
+provider:
+  name: Nebius Token Factory
+  base_url: https://api.tokenfactory.nebius.com/v1/   # docs/nebius_notes.md
+  timeout_s: 60
+  retries: 2                 # per model, before falling back to the next one
+  backoff_s: 1.0             # exponential: 1s, 2s, ...
+  max_retry_after_s: 20      # cap on the Retry-After header from a 429
+
+# NVIDIA Nemotron models on Token Factory, IDs verified against the public catalog on 2026-10-13.
+# Prices are USD per 1M tokens (catalog). `thinking` sets chat_template_kwargs.enable_thinking.
+models:
+  nano:
+    id: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B
+    label: Nemotron 3 Nano
+    price_in: 0.06
+    price_out: 0.24
+    thinking: false
+  super:
+    id: nvidia/nemotron-3-super-120b-a12b
+    label: Nemotron 3 Super
+    price_in: 0.30
+    price_out: 0.90
+    thinking: false
+  ultra:
+    id: nvidia/Nemotron-3-Ultra-550b-a55b
+    label: Nemotron 3 Ultra
+    price_in: 1.00
+    price_out: 3.00
+    thinking: true
+  lightning:
+    id: nvidia/Nemotron-3_5-Lightning
+    label: Nemotron 3.5 Lightning
+    price_in: 0.06
+    price_out: 0.24
+    thinking: false
+
+# Each role is an ordered fallback chain of model aliases.
+roles:
+  fast: [nano, lightning]            # categorise, extract memory, consolidate
+  agent: [super, lightning, nano]    # main conversational agent with tool calling
+  deep: [ultra, super, lightning]    # monthly review, what-if, goal plans, anomaly explanations
+
+agent:
+  max_iterations: 6          # tool-calling rounds before the loop stops
+  history_turns: 6           # previous messages sent with each turn
+  memory_top_k: 8            # memories injected per turn
+  max_tokens: 1500
+  temperature: 0.3
+
+privacy:
+  redact: true               # mask account/card numbers, emails, phones, UPI IDs, names
+  strict_mode: false         # true = tools return aggregates only, never individual transactions
+  max_rows_per_tool: 8       # cap on transaction rows any tool result may contain
+
+memory:
+  min_confidence: 0.5        # extracted memories below this are dropped
+  stale_days: 120            # consolidation prunes low-importance memories untouched this long
+
+proactive:
+  enabled: true
+  interval_minutes: 60
+  budget_alert_pct: 80
+
+currency: INR                # INR (₹, lakh grouping) or USD
+db_path: ledgermind.db

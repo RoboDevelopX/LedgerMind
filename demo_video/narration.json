@@ -1,0 +1,46 @@
+[
+  {
+    "scene": "title",
+    "text": "This is Ledgermind: a private AI finance assistant that remembers your money. It runs on NVIDIA Nemotron models through Nebius Token Factory, and it's built for the Personal AI track."
+  },
+  {
+    "scene": "problem",
+    "text": "Budgeting apps make you do the analysis. Chatbots forget you, make up numbers, and want your whole bank history. Ledgermind remembers you, computes every figure itself, and sends the model only what it needs."
+  },
+  {
+    "scene": "app",
+    "text": "I'll load twelve months of fictional bank data. Import is CSV only, by design: no bank logins. Nemotron Nano categorises the merchants that local rules don't know, and Ledgermind has already noticed a few things: a duplicate Amazon charge, a Netflix price rise, and a new subscription."
+  },
+  {
+    "scene": "spend",
+    "text": "Where did my money go last month? Nemotron Super calls the spending tool. The figures come from plain Python over my ledger, and a number guard checks that every amount in the answer appears in the tool result. Each answer shows its model and latency."
+  },
+  {
+    "scene": "subs",
+    "text": "Find my subscriptions. It spots the Netflix price rise, and flags Apple Music as probably forgotten, because I've also been paying for Spotify since February."
+  },
+  {
+    "scene": "goal",
+    "text": "Now I'll mention that I'm saving three lakh rupees for a Japan trip by March. Ledgermind sets the goal, works out the monthly saving it needs, and stores it as a typed memory."
+  },
+  {
+    "scene": "whatif",
+    "text": "What if I cut dining by thirty percent? The simulator runs locally, then the answer moves up to Nemotron Ultra, which explains how much sooner the Japan goal arrives. Heavy reasoning is only spent where it matters."
+  },
+  {
+    "scene": "memory",
+    "text": "Everything it remembers is here, typed as goals, preferences, recurring bills and corrections. I can edit, pin or delete any memory. After each turn, Nano extracts new memories and merges duplicates."
+  },
+  {
+    "scene": "privacy",
+    "text": "The Privacy Inspector shows exactly what left my machine on the last turn. No transaction rows, no account numbers, no raw bank descriptions. Personal details are redacted, and strict mode sends only totals and counts."
+  },
+  {
+    "scene": "arch",
+    "text": "Under the hood, a config-driven router sends bulk work to Nano, the tool-calling agent to Super, and deep reasoning to Ultra, with retries and fallback, all through one OpenAI-compatible Token Factory endpoint."
+  },
+  {
+    "scene": "outro",
+    "text": "Ledgermind is open source under the MIT license. It gives informational insights, not financial advice. Thanks for watching."
+  }
+]

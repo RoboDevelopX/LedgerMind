@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledgermind</title>
+<meta name="description" content="A private AI finance assistant that remembers your money. Runs on NVIDIA Nemotron via Nebius Token Factory.">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#overview" aria-label="Ledgermind home">
+    <img src="/static/favicon.svg" alt="" width="28" height="28">
+    <span class="brand-text"><strong>Ledgermind</strong><small>remembers your money, keeps it private</small></span>
+  </a>
+  <nav class="tabs" role="tablist">
+    <a href="#overview" role="tab" data-tab="overview">Overview</a>
+    <a href="#memory" role="tab" data-tab="memory">Memory <span class="count" id="memCount"></span></a>
+    <a href="#privacy" role="tab" data-tab="privacy">Privacy</a>
+    <a href="#models" role="tab" data-tab="models">Models</a>
+    <a href="#chat" role="tab" data-tab="chat" class="only-narrow">Chat</a>
+  </nav>
+  <div class="top-actions">
+    <span class="chip mode" id="modeChip" title="">connecting…</span>
+    <label class="switch" title="Strict privacy mode: only aggregates reach the model">
+      <input type="checkbox" id="strictToggle"><span class="slider"></span><span class="switch-label">Strict</span>
+    </label>
+    <div class="menu">
+      <button class="icon-btn" id="menuBtn" aria-haspopup="true" aria-expanded="false" title="Data">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="menu-list" id="menuList" hidden>
+        <button data-action="import">Import bank CSV…</button>
+        <button data-action="demo">Load demo data (12 months)</button>
+        <button data-action="export">Export everything (JSON)</button>
+        <button data-action="wipe" class="danger">Delete all my data</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="app">
+  <main class="view">
+    <!-- Overview -->
+    <section class="tab-panel" id="tab-overview">
+      <div id="notices" class="notices"></div>
+      <div id="welcome" class="welcome" hidden>
+        <h1>Your money, remembered. Your data, kept.</h1>
+        <p>Ledgermind is a private finance assistant. Bring a bank statement as CSV, ask questions in plain English, and it
+          remembers your goals, budgets and habits between conversations. All figures are computed on your machine;
+          the model only ever sees summaries.</p>
+        <div class="welcome-actions">
+          <button class="primary" data-action="demo">Load 12 months of demo data</button>
+          <button data-action="import">Import a bank CSV</button>
+        </div>
+        <ul class="facts">
+          <li><strong>CSV only, by design.</strong> No bank logins, no account aggregators, nothing that can move money.</li>
+          <li><strong>Aggregates, not ledgers.</strong> Transaction rows, account numbers and raw descriptions stay local.</li>
+          <li><strong>NVIDIA Nemotron on Nebius Token Factory.</strong> Nano, Super and Ultra, each for the job it suits.</li>
+        </ul>
+        <div class="dropzone" id="dropzone">Drop a CSV statement here</div>
+      </div>
+      <div id="dashboard" hidden>
+        <div class="kpis" id="kpis"></div>
+        <div class="grid">
+          <article class="card span-2">
+            <header><h2>12-month trend</h2><span class="legend"><i class="sw income"></i>Income <i class="sw spent"></i>Spent <i class="sw saved"></i>Saved</span></header>
+            <div id="trend" class="chart"></div>
+          </article>
+          <article class="card">
+            <header><h2 id="catTitle">This month by category</h2></header>
+            <div id="categories"></div>
+          </article>
+          <article class="card">
+            <header><h2>Budgets</h2><button class="link" data-ask="Set a dining budget of 10000">+ Set one</button></header>
+            <div id="budgets"></div>
+          </article>
+          <article class="card">
+            <header><h2>Goals</h2><button class="link" data-ask="I'm saving ₹3 lakh for a Japan trip by March">+ Add one</button></header>
+            <div id="goals"></div>
+          </article>
+          <article class="card">
+            <header><h2>Subscriptions</h2><button class="link" data-ask="Find my subscriptions">Ask</button></header>
+            <div id="subs"></div>
+          </article>
+          <article class="card span-2">
+            <header><h2>Recent transactions</h2><span class="muted small" id="asOf"></span></header>
+            <div id="recent" class="table-wrap"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Memory -->
+    <section class="tab-panel" id="tab-memory" hidden>
+      <div class="panel-head">
+        <div>
+          <h1>What Ledgermind remembers</h1>
+          <p class="muted">Typed memories learned from your conversations and data. Edit, pin or delete anything; pinned
+            memories are always considered and never pruned.</p>
+        </div>
+        <button id="consolidateBtn" title="Merge near-duplicates, prune stale memories, summarise long lists">Tidy up</button>
+      </div>
+      <form id="memForm" class="mem-form">
+        <select id="memType" aria-label="Memory type"></select>
+        <input id="memText" placeholder="Tell Ledgermind something to remember, e.g. I get paid on the last working day" maxlength="300">
+        <button class="primary" type="submit">Remember</button>
+      </form>
+      <div id="memList" class="mem-list"></div>
+    </section>
+
+    <!-- Privacy -->
+    <section class="tab-panel" id="tab-privacy" hidden>
+      <div class="panel-head">
+        <div>
+          <h1>Privacy Inspector</h1>
+          <p class="muted">Exactly what left this machine on the last turn, after redaction and minimisation. Every
+            outgoing payload is logged locally.</p>
+        </div>
+        <button id="privacyRefresh">Refresh</button>
+      </div>
+      <div class="privacy-grid">
+        <article class="card">
+          <header><h2>Never sent</h2></header>
+          <ul class="checks" id="neverSent"></ul>
+        </article>
+        <article class="card">
+          <header><h2>Strict mode</h2></header>
+          <p class="small">Off: tool results may include up to a few minimised rows (date, merchant, amount). On: only
+            totals and counts reach the model; transaction-level rows are replaced with a count.</p>
+          <label class="switch big"><input type="checkbox" id="strictToggle2"><span class="slider"></span><span class="switch-label" id="strictLabel">Off</span></label>
+        </article>
+      </div>
+      <div id="privacyCalls"></div>
+    </section>
+
+    <!-- Models -->
+    <section class="tab-panel" id="tab-models" hidden>
+      <div class="panel-head">
+        <div>
+          <h1>Model routing</h1>
+          <p class="muted">Each task goes to the smallest Nemotron model that does it well. If a model fails, the router
+            retries and then falls back down the chain.</p>
+        </div>
+        <button id="callsRefresh">Refresh</button>
+      </div>
+      <div id="roles" class="roles"></div>
+      <article class="card"><header><h2>By model</h2></header><div id="modelStats" class="table-wrap"></div></article>
+      <article class="card"><header><h2>Recent calls</h2></header><div id="calls" class="table-wrap"></div></article>
+    </section>
+  </main>
+
+  <!-- Chat -->
+  <aside class="chat" id="tab-chat">
+    <header class="chat-head">
+      <h2>Ask Ledgermind</h2>
+      <span class="muted small">Answers cite figures computed from your ledger</span>
+    </header>
+    <div class="messages" id="messages" aria-live="polite"></div>
+    <div class="suggestions" id="suggestions"></div>
+    <form class="composer" id="composer">
+      <textarea id="input" rows="1" placeholder="Where did my money go last month?" maxlength="4000" aria-label="Message"></textarea>
+      <button class="primary send" type="submit" id="sendBtn" aria-label="Send">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12l16-8-6 16-2-7-8-1z" fill="currentColor"/></svg>
+      </button>
+    </form>
+    <p class="disclaimer">Ledgermind gives informational insights, not financial advice. No investment recommendations or guarantees.</p>
+  </aside>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <div class="modal-toolbar">
+      <strong id="modalTitle">Monthly review</strong>
+      <span class="spacer"></span>
+      <a class="button" id="modalDownload" download>Download .md</a>
+      <button id="modalPrint">Print / Save as PDF</button>
+      <button id="modalClose" aria-label="Close">Close</button>
+    </div>
+    <div class="modal-body md" id="modalBody"></div>
+  </div>
+</div>
+
+<input type="file" id="csvInput" accept=".csv,text/csv,text/plain" hidden>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

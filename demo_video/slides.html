@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ledgermind slides</title>
+<style>
+  :root { --bg: #0b0f0a; --panel: #141a12; --ink: #eef3ea; --muted: #9aa494; --accent: #76b900; --line: #26301f; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
+  .slide { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 80px; text-align: center; animation: fade .6s ease both; }
+  .slide.on { display: flex; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .logo { width: 84px; height: 84px; margin-bottom: 18px; }
+  h1 { font-size: 72px; margin: 0; letter-spacing: -1px; }
+  h2 { font-size: 40px; margin: 0 0 28px; }
+  .tag { font-size: 26px; color: var(--muted); margin-top: 10px; }
+  .badges { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; justify-content: center; }
+  .badge { border: 1px solid var(--line); background: var(--panel); padding: 8px 16px; border-radius: 999px; font-size: 18px; }
+  .badge b { color: var(--accent); }
+  .lines { display: flex; flex-direction: column; gap: 22px; font-size: 34px; max-width: 980px; }
+  .lines div { opacity: 0; animation: fade .6s ease forwards; }
+  .lines div:nth-child(2) { animation-delay: 2.8s; } .lines div:nth-child(3) { animation-delay: 7.6s; }
+  .lines .yes { color: var(--accent); font-weight: 700; }
+  .x { color: #ff7b6b; margin-right: 10px; } .ok { margin-right: 10px; }
+  .flow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; width: 100%; max-width: 1080px; align-items: stretch; }
+  .box { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; text-align: left; }
+  .box .n { color: var(--accent); font-weight: 800; font-size: 15px; letter-spacing: 1px; text-transform: uppercase; }
+  .box .t { font-size: 24px; font-weight: 700; margin: 6px 0 4px; }
+  .box .d { color: var(--muted); font-size: 17px; }
+  .stack { display: flex; flex-direction: column; gap: 18px; }
+  .tiers { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .tier { font-size: 15px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); }
+  .tier.f { color: #8fd16a; } .tier.r { color: #e3b05b; } .tier.d { color: #ff7b6b; }
+  .tf { margin-top: 26px; width: 100%; max-width: 1080px; border: 1px dashed var(--accent); border-radius: 16px; padding: 14px;
+    font-size: 20px; color: var(--muted); }
+  .tf b { color: var(--ink); }
+  .arrow { color: var(--accent); font-size: 28px; align-self: center; }
+  .url { margin-top: 26px; font-size: 26px; color: var(--accent); font-family: ui-monospace, Menlo, monospace; }
+</style>
+</head>
+<body>
+<svg style="display:none"><symbol id="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#76b900"/><path d="M9 8v16h14" fill="none" stroke="#0b0f0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 19l3.5-4 3 2.5L24 12" fill="none" stroke="#0b0f0a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+
+<section class="slide" id="title">
+  <svg class="logo"><use href="#logo"/></svg>
+  <h1>Ledgermind</h1>
+  <div class="tag">A private AI finance assistant that remembers your money</div>
+  <div class="badges">
+    <span class="badge">Models: <b>NVIDIA Nemotron 3</b></span>
+    <span class="badge">Inference: <b>Nebius Token Factory</b></span>
+    <span class="badge">Track: <b>Personal AI</b></span>
+  </div>
+</section>
+
+<section class="slide" id="problem">
+  <div class="lines">
+    <div><span class="x">✕</span>Budget apps make you do the analysis.</div>
+    <div><span class="x">✕</span>Chatbots forget you, invent numbers and want your whole bank history.</div>
+    <div class="yes"><span class="ok">✓</span>Ledgermind remembers you, computes every figure itself, and shares only summaries.</div>
+  </div>
+</section>
+
+<section class="slide" id="arch">
+  <h2>How Ledgermind works</h2>
+  <div class="flow">
+    <div class="stack">
+      <div class="box"><div class="n">On your machine</div><div class="t">SQLite ledger</div><div class="d">CSV import only. Transactions, accounts and raw descriptions never leave.</div></div>
+      <div class="box"><div class="n">Deterministic skills</div><div class="t">15 finance tools</div><div class="d">Summaries, subscriptions, anomalies, budgets, goals, what-if, reviews. All maths in Python.</div></div>
+    </div>
+    <div class="stack">
+      <div class="box"><div class="n">Agent</div><div class="t">Nemotron 3 Super</div><div class="d">Calls and chains tools; a number guard checks every figure it writes.</div></div>
+      <div class="box"><div class="n">Memory + privacy</div><div class="t">Typed, editable, inspectable</div><div class="d">FTS5 retrieval, redaction, aggregates-only payloads, a log of everything sent.</div></div>
+    </div>
+    <div class="stack">
+      <div class="box"><div class="n">Router</div><div class="t">Right model per job</div>
+        <div class="tiers"><span class="tier f">Nano · categorise, memory</span><span class="tier r">Super · agent</span><span class="tier d">Ultra · what-if, goals, reviews</span></div>
+        <div class="d" style="margin-top:10px">Retries, then falls back down the chain (Nemotron 3.5 Lightning as the safety net).</div></div>
+    </div>
+  </div>
+  <div class="tf"><b>Nebius Token Factory</b> serves every Nemotron model behind one OpenAI-compatible endpoint, so routing is just a model name in <b>config.yaml</b>.</div>
+</section>
+
+<section class="slide" id="outro">
+  <svg class="logo"><use href="#logo"/></svg>
+  <h1>Ledgermind</h1>
+  <div class="tag">Open source · MIT license · NVIDIA Nemotron on Nebius Token Factory</div>
+  <div class="tag" style="font-size:18px">Informational insights, not financial advice.</div>
+  <div class="url" id="repo"></div>
+</section>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  document.getElementById("repo").textContent = params.get("repo") || "";
+  function show() {
+    const id = location.hash.slice(1) || "title";
+    document.querySelectorAll(".slide").forEach((s) => s.classList.toggle("on", s.id === id));
+  }
+  addEventListener("hashchange", show);
+  show();
+</script>
+</body>
+</html>

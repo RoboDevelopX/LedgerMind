@@ -1,0 +1,75 @@
+# Labelled raw bank descriptions (fictional) with the category a careful human would pick.
+# `amount` sign gives direction (negative = money out). Mix of merchants the local rules know and ones they don't.
+- {d: "UPI/P2M/412398765432/SWIGGY/YESB/swiggy@ybl/Order", amount: -486, label: Dining}
+- {d: "UPI/P2M/41239/ZOMATO/HDFC/zomato@hdfcbank", amount: -612, label: Dining}
+- {d: "POS 4821 TOIT BREWPUB", amount: -2340, label: Dining}
+- {d: "POS 4821 MTR 1924 BASAVANAGUDI", amount: -780, label: Dining}
+- {d: "POS 4821 THIRD WAVE COFFEE", amount: -340, label: Dining}
+- {d: "UPI/P2M/2231/CHAAYOS/ICIC", amount: -260, label: Dining}
+- {d: "UPI/P2M/77/BLINKIT/YESB", amount: -1120, label: Groceries}
+- {d: "UPI/P2M/88123/BIGBASKET/ICIC", amount: -2890, label: Groceries}
+- {d: "POS 4821 NILGIRIS SUPERMARKET", amount: -1540, label: Groceries}
+- {d: "UPI/P2M/5521/NATURES BASKET/HDFC", amount: -2210, label: Groceries}
+- {d: "UPI/P2M/66/MILKBASKET/YESB", amount: -890, label: Groceries}
+- {d: "UPI/P2M/9123/UBER INDIA/ICIC", amount: -412, label: Transport}
+- {d: "UPI/P2M/9124/RAPIDO/YESB", amount: -96, label: Transport}
+- {d: "POS 4821 INDIAN OIL PETROL PUMP", amount: -2500, label: Transport}
+- {d: "UPI/P2M/1291/NAMMA METRO SMARTCARD", amount: -500, label: Transport}
+- {d: "FASTAG RECHARGE PAYTM", amount: -1000, label: Transport}
+- {d: "NETFLIX.COM SI", amount: -649, label: Subscriptions}
+- {d: "SPOTIFY INDIA AUTOPAY", amount: -119, label: Subscriptions}
+- {d: "APPLE.COM/BILL APPLE MUSIC", amount: -99, label: Subscriptions}
+- {d: "YOUTUBE PREMIUM GOOGLE PLAY", amount: -129, label: Subscriptions}
+- {d: "CULT.FIT MEMBERSHIP", amount: -1999, label: Subscriptions}
+- {d: "UPI/P2M/41/AUDIBLE/ICIC", amount: -199, label: Subscriptions}
+- {d: "BESCOM BILL PAYMENT", amount: -1840, label: Utilities}
+- {d: "AIRTEL POSTPAID BILL", amount: -799, label: Utilities}
+- {d: "ACT FIBERNET BROADBAND", amount: -1180, label: Utilities}
+- {d: "BWSSB WATER CHARGES", amount: -420, label: Utilities}
+- {d: "UPI/P2M/4410/APOLLO PHARMACY", amount: -735, label: Health}
+- {d: "UPI/P2M/4411/PRACTO CONSULT", amount: -500, label: Health}
+- {d: "POS 4821 THYROCARE DIAGNOSTICS", amount: -1450, label: Health}
+- {d: "UPI/P2M/1234/LENSKART/ICIC", amount: -3200, label: Shopping}
+- {d: "AMAZON PAY INDIA ORDER", amount: -1899, label: Shopping}
+- {d: "POS 4821 DECATHLON SPORTS BLR", amount: -2799, label: Shopping}
+- {d: "UPI/P2M/312/MYNTRA DESIGNS", amount: -2450, label: Shopping}
+- {d: "POS 4821 CROMA ELECTRONICS", amount: -14990, label: Shopping}
+- {d: "POS 4821 PVR CINEMAS FORUM", amount: -840, label: Entertainment}
+- {d: "UPI/P2M/71/BOOKMYSHOW", amount: -1200, label: Entertainment}
+- {d: "STEAMGAMES.COM", amount: -1499, label: Entertainment}
+- {d: "INDIGO AIRLINES 6E BOOKING", amount: -8420, label: Travel}
+- {d: "MAKEMYTRIP HOTEL BOOKING", amount: -11200, label: Travel}
+- {d: "IRCTC E-TICKET", amount: -1340, label: Travel}
+- {d: "COURSERA INC", amount: -3999, label: Education}
+- {d: "UDEMY ONLINE COURSE", amount: -499, label: Education}
+- {d: "ACH D- ICICI PRU LIFE PREMIUM", amount: -2500, label: Insurance}
+- {d: "ACKO GENERAL INSURANCE", amount: -7600, label: Insurance}
+- {d: "ATM CASH WDL 4821 MG ROAD", amount: -5000, label: Cash}
+- {d: "CREDIT CARD ANNUAL FEE", amount: -999, label: Fees}
+- {d: "UPI/P2M/510/FERNS N PETALS", amount: -1299, label: Gifts}
+- {d: "IMPS/RENT/NOBROKER", amount: -28000, label: Housing}
+- {d: "NEFT/ACME CORP PAYROLL OCT", amount: 120000, label: Income}
+- {d: "UPWORK ESCROW INC PAYOUT", amount: 42000, label: Income}
+- {d: "INT.PD SAVINGS ACCOUNT", amount: 312, label: Income}
+- {d: "UPI/P2A/98123/RAHUL VERMA/OKAXIS", amount: -1500, label: Transfers}
+- {d: "SIP ZERODHA COIN MF", amount: -10000, label: Savings}
+# Merchants chosen because the local rules don't know them: this is where the model earns its keep.
+- {d: "UPI/P2M/8812/MEGHANA FOODS/ICIC", amount: -980, label: Dining}
+- {d: "POS 4821 SMOKE HOUSE DELI", amount: -2650, label: Dining}
+- {d: "UPI/P2M/301/A2B ADYAR ANANDA BHAVAN", amount: -340, label: Dining}
+- {d: "UPI/P2M/7712/COUNTRY DELIGHT/YESB", amount: -720, label: Groceries}
+- {d: "POS 4821 MORE RETAIL", amount: -1830, label: Groceries}
+- {d: "UPI/P2M/4401/NAMMA YATRI/ICIC", amount: -180, label: Transport}
+- {d: "POS 4821 HP PETROLEUM KORAMANGALA", amount: -2000, label: Transport}
+- {d: "UPI/P2M/552/1MG TECHNOLOGIES", amount: -640, label: Health}
+- {d: "POS 4821 CLOVE DENTAL", amount: -3500, label: Health}
+- {d: "UPI/P2M/7781/NYKAA E RETAIL", amount: -1590, label: Shopping}
+- {d: "POS 4821 IKEA NAGASANDRA", amount: -6890, label: Shopping}
+- {d: "UPI/P2M/1180/SONYLIV/ICIC", amount: -299, label: Subscriptions}
+- {d: "UPI/P2M/119/KINDLE UNLIMITED", amount: -169, label: Subscriptions}
+- {d: "POS 4821 SMAAASH BOWLING", amount: -1100, label: Entertainment}
+- {d: "UPI/P2M/891/REDBUS/ICIC", amount: -1450, label: Travel}
+- {d: "UPI/P2M/4321/UNACADEMY", amount: -2999, label: Education}
+- {d: "TATA AIG HEALTH PREMIUM", amount: -9800, label: Insurance}
+- {d: "MAHANAGAR GAS BILL", amount: -640, label: Utilities}
+- {d: "LATE PAYMENT CHARGES CC", amount: -500, label: Fees}

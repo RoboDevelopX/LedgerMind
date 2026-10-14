@@ -1,0 +1,104 @@
+# Ledgermind eval: finance questions over the seeded demo ledger (LEDGERMIND_TODAY=2026-10-20).
+# Questions run in order against one ledger, so later ones can rely on earlier ones (a goal, a budget, a memory).
+#
+#   tools    tools the agent must call (all of them, in any order)
+#   figures  ground-truth values from eval/run_eval.py (pandas over the ledger); each must appear in the tool
+#            result (checks the maths) and in the answer (checks the model copied it), within 1%
+#   text     phrases the answer must contain (case-insensitive)
+
+- id: spent_last_month
+  question: How much did I spend last month?
+  tools: [spending_summary]
+  figures: [spent_sep]
+
+- id: income
+  question: What was my income in September?
+  tools: [spending_summary]
+  figures: [income_sep]
+
+- id: dining_last_month
+  question: How much did I spend on dining last month?
+  tools: [spending_summary]
+  figures: [dining_sep]
+
+- id: merchant
+  question: How much did I spend at Swiggy last month?
+  tools: [spending_summary]
+  figures: [swiggy_sep]
+
+- id: where_money_went
+  question: Where did my money go last month?
+  tools: [spending_summary]
+  figures: [top_category_sep_amount]
+  text: [top_category_sep]
+
+- id: month_to_date
+  question: How much have I spent so far this month?
+  tools: [spending_summary]
+  figures: [spent_oct_mtd]
+
+- id: subscriptions
+  question: Find my subscriptions
+  tools: [detect_subscriptions]
+  figures: [netflix_new]
+  text: [Netflix]
+
+- id: price_rise
+  question: Did any of my subscriptions get more expensive?
+  tools: [detect_subscriptions]
+  figures: [netflix_old, netflix_new]
+
+- id: forgotten
+  question: Am I paying for a subscription I've probably forgotten?
+  tools: [detect_subscriptions]
+  text: [Apple Music]
+
+- id: anomalies
+  question: Anything unusual in the last 90 days?
+  tools: [detect_anomalies]
+  figures: [duplicate_amazon, largest_one_off]
+
+- id: set_goal
+  question: I'm saving ₹3 lakh for a Japan trip by March
+  tools: [set_goal]
+  figures: [goal_needed_per_month]
+
+- id: goal_progress
+  question: Am I on track for my goals?
+  tools: [goal_progress]
+  figures: [goal_needed_per_month]
+
+- id: what_if
+  question: What if I cut dining by 30%?
+  tools: [what_if_simulator]
+  figures: [whatif_dining_30]
+
+- id: set_budget
+  question: Set a dining budget of 10000 a month
+  tools: [set_budget]
+  figures: [budget_dining]
+
+- id: budget_check
+  question: How are my budgets looking this month?
+  tools: [budget_check]
+  figures: [dining_oct_mtd]
+
+- id: monthly_review
+  question: Give me a monthly review for September
+  tools: [monthly_review]
+  figures: [income_sep, spent_sep]
+
+- id: remember
+  question: Remember that I get paid on the last working day of the month
+  tools: [remember]
+  text: [last working day]
+
+- id: recall
+  question: What do you remember about me?
+  tools: [recall_memories]
+  text: [last working day, Japan]
+
+- id: correction
+  question: Toit Brewpub is dining, not entertainment
+  tools: [correct_category]
+  text: [Dining]
